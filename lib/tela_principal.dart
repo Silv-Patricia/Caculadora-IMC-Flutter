@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:imccalc_flutter/botao_arredondado.dart';
+import 'cartao_padrao.dart';
+import 'conteudo_cartao.dart';
+import 'constantes.dart';
 
 class TelaPrincipal extends StatefulWidget {
   @override
   _TelaPrincipalState createState() => _TelaPrincipalState();
 }
 
-int cont = 0;
-
 class _TelaPrincipalState extends State<TelaPrincipal> {
-  Widget criaBox() {
-    return Expanded(
-      child: Container(
-          margin: EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Color(0xff0363CB8),
-            borderRadius: BorderRadius.circular(10),
-          )),
-    );
-  }
+  Genero? generoSelecionado;
+  int altura = 170;
+  int peso = 50;
+  int idade = 25;
 
   @override
   Widget build(BuildContext context) {
@@ -26,24 +23,179 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
           centerTitle: true,
           title: Text('Calculadora IMC'),
         ),
-        body: Column(children: [
+        body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Expanded(
             child: Row(
               children: [
-                criaBox(),
-                criaBox(),
+                Expanded(
+                  child: CartaoPadrao(
+                    aoClicar: () {
+                      setState(() {
+                        generoSelecionado =
+                            generoSelecionado == Genero.Masculino
+                                ? null
+                                : Genero.Masculino;
+                      });
+                    },
+                    cor: generoSelecionado == Genero.Masculino
+                        ? kCorConteinesSelecionado
+                        : kCorConteinesPadrao,
+                    filhoCartao: MaleOrFemale(
+                      sexoIcone: Icons.male,
+                      sexo: 'Masculino',
+                      corConteudo: generoSelecionado == Genero.Masculino
+                          ? kCorMacho
+                          : kCorConteudoPadrao,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: CartaoPadrao(
+                    aoClicar: () {
+                      setState(() {
+                        generoSelecionado = generoSelecionado == Genero.Feminino
+                            ? null
+                            : Genero.Feminino;
+                      });
+                    },
+                    cor: generoSelecionado == Genero.Feminino
+                        ? kCorConteinesSelecionado
+                        : kCorConteinesPadrao,
+                    filhoCartao: MaleOrFemale(
+                        sexoIcone: Icons.female,
+                        sexo: 'Feminino',
+                        corConteudo: generoSelecionado == Genero.Feminino
+                            ? kCorFemea
+                            : kCorConteudoPadrao),
+                  ),
+                ),
               ],
             ),
           ),
-          criaBox(),
+          Expanded(
+            child: CartaoPadrao(
+              cor: kCorConteinesPadrao,
+              filhoCartao: Column(
+                children: [
+                  Text(
+                    'Altura',
+                    style: kLetraPadrao,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(altura.toString(), style: kTextoDestaque),
+                      Text(
+                        ' cm',
+                        style: ktextoMenosDestaque,
+                      ),
+                    ],
+                  ),
+                  Slider(
+                    value: altura.toDouble(),
+                    min: kAlturaMinima,
+                    max: kAlturaMaxima,
+                    activeColor: kCorDestaque,
+                    inactiveColor: kCorMenosDestaque,
+                    onChanged: (double novaAltura) {
+                      setState(() {
+                        altura = novaAltura.round();
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
           Expanded(
             child: Row(
               children: [
-                criaBox(),
-                criaBox(),
+                Expanded(
+                  child: CartaoPadrao(
+                    cor: kCorConteinesPadrao,
+                    filhoCartao: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Peso',
+                          style: kLetraPadrao,
+                        ),
+                        Text(
+                          peso.toString(),
+                          style: kTextoDestaque,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            BotaoArredondado(
+                              icone: Icons.remove,
+                              aoClicar: () {
+                                setState(() {
+                                peso--;                                  
+                                });
+                              },
+                            ),
+                            BotaoArredondado(
+                              icone: Icons.add,
+                              aoClicar: () {
+                                setState(() {
+                                peso++;                                  
+                                });
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: CartaoPadrao(
+                    cor: kCorConteinesPadrao,
+                    filhoCartao: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Idade', style: kLetraPadrao),
+                        Text(
+                          idade.toString(),
+                          style: kTextoDestaque,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            BotaoArredondado(
+                              icone: Icons.remove,
+                              aoClicar: () {
+                                setState(() {
+                                idade--;                                  
+                                });
+                              },
+                            ),
+                            BotaoArredondado(
+                              icone: Icons.add,
+                              aoClicar: () {
+                                setState(() {
+                                idade++;                                  
+                                });
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
-          )
+          ),
+          Container(
+            color: kCorContainerInferior,
+            margin: EdgeInsets.only(top: 10),
+            width: double.infinity,
+            height: kAlturaContainerInferior,
+          ),
         ]));
   }
 }
