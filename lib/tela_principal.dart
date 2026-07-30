@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:imccalc_flutter/botao_arredondado.dart';
 import 'cartao_padrao.dart';
 import 'conteudo_cartao.dart';
 import 'constantes.dart';
+import 'tela_resultado.dart';
 
 class TelaPrincipal extends StatefulWidget {
   @override
@@ -133,7 +133,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                               icone: Icons.remove,
                               aoClicar: () {
                                 setState(() {
-                                peso--;                                  
+                                  peso--;
                                 });
                               },
                             ),
@@ -141,7 +141,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                               icone: Icons.add,
                               aoClicar: () {
                                 setState(() {
-                                peso++;                                  
+                                  peso++;
                                 });
                               },
                             ),
@@ -169,7 +169,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                               icone: Icons.remove,
                               aoClicar: () {
                                 setState(() {
-                                idade--;                                  
+                                  idade--;
                                 });
                               },
                             ),
@@ -177,7 +177,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                               icone: Icons.add,
                               aoClicar: () {
                                 setState(() {
-                                idade++;                                  
+                                  idade++;
                                 });
                               },
                             ),
@@ -190,11 +190,18 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
               ],
             ),
           ),
-          Container(
-            color: kCorContainerInferior,
-            margin: EdgeInsets.only(top: 10),
-            width: double.infinity,
-            height: kAlturaContainerInferior,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => TelaResultado()));
+            },
+            child: Container(
+              alignment: AlignmentGeometry.center,
+              color: kCorContainerInferior,
+              margin: EdgeInsets.only(top: 10),
+              width: double.infinity,
+              height: kAlturaContainerInferior,
+              child: Text('Calcular', style: kLetraPadrao, textAlign: TextAlign.center,),
+            ),
           ),
         ]));
   }

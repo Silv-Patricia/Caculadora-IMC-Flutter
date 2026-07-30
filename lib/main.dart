@@ -12,6 +12,10 @@ class CalculadoraIMC extends StatelessWidget {
         appBarTheme: AppBarTheme(
           backgroundColor: Color(0xff1B185B),
           titleTextStyle: TextStyle(color: Colors.white),
+          iconTheme: IconThemeData(
+          color: Colors.white,
+          
+        ),
         ),
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: Color(0xff1B185B),
